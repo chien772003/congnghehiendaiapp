@@ -12,14 +12,14 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#f0f0f0',
     marginBottom: 10,
-    flexWrap: 'wrap', // Thêm margin dưới để tách biệt với danh sách người dùng
+    flexWrap: 'wrap',
   },
-
   filterButton: {
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     backgroundColor: '#e0e0e0',
+    margin: 3,
   },
   activeFilterButton: {
     backgroundColor: '#4CAF50',
@@ -40,26 +40,26 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
   },
   avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10,
+    width: 60, 
+    height: 60,
+    borderRadius: 30, // Đổi thành hình tròn
+    marginRight: 15, // Tăng khoảng cách với thông tin người dùng
   },
   userInfo: {
     flex: 1,
   },
   userName: {
-    fontSize: 16,
+    fontSize: 15, // Tăng kích thước tên người dùng
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 2, // Điều chỉnh khoảng cách giữa các thông tin
   },
   email: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#666',
-    marginBottom: 5,
+    marginBottom: 2,
   },
   role: {
-    fontSize: 14,
+    fontSize: 10,
     color: '#999',
   },
   userDetailsContainer: {
@@ -83,20 +83,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   userDetailsHeaderText: {
-    fontSize: 18,
+    fontSize: 20, 
     fontWeight: 'bold',
   },
   closeIcon: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
   },
   userDetailsContent: {
-    marginTop: 10,
+    marginTop: 15, 
   },
   userDetailsText: {
     fontSize: 16,
-    marginBottom: 5,
+    marginBottom: 8, 
   },
   userDetailsLabel: {
     fontWeight: 'bold',
@@ -104,6 +104,31 @@ const styles = StyleSheet.create({
   status: {
     fontSize: 14,
     color: '#999',
+  },
+  status: {
+    fontSize: 14,
+    color: '#999',
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 100,
+    marginRight:10
+  },
+  deleteButtonText: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  approveButton: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 100,
+  },
+  approveButtonText: {
+    color: 'white',
+    textAlign: 'center',
   },                      
   });
   export default styles;

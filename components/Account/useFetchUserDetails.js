@@ -1,33 +1,31 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { endpoints, authAPI } from '../../configs/API'; // Đảm bảo endpoints và authAPI đã được định nghĩa đúng trong API.js
+import { endpoints, authAPI } from '../../configs/API';
 
-const useFetchUserDetails = (userId, accessToken) => {
+const useFetchUserDetails = (userId, token) => {
   const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!userId || !token) return;
+
     const fetchUserDetails = async () => {
       setLoading(true);
+      setUserDetails(null); // Xóa dữ liệu cũ khi bắt đầu tải dữ liệu mới
+      setError(null); // Xóa lỗi cũ khi bắt đầu tải dữ liệu mới
       try {
-        const response = await axios.get(endpoints.user_detail(userId), {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        });
+        const response = await axios.get(endpoints.user_detail(userId), authAPI(token));
         setUserDetails(response.data);
-      } catch (error) {
-        setError(error);
+      } catch (err) {
+        setError(err);
       } finally {
         setLoading(false);
       }
     };
 
-    if (userId && accessToken) {
-      fetchUserDetails();
-    }
-  }, [userId, accessToken]);
+    fetchUserDetails();
+  }, [userId, token]);
 
   return { userDetails, loading, error };
 };

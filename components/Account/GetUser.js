@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, ActivityIndicator, RefreshControl, TouchableOpacity, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import useFetchUsers from './useFetchUsers';
 import useFetchUserDetails from './useFetchUserDetails';
+import deleteUser from '../CusAccount/Delete';
+import approveUser from '../CusAccount/Approve';
 import styles from './Styles';
 
 const GetUser = () => {
+  const [token, setToken] = useState(null);
   const { users, loading, error, refetch } = useFetchUsers();
   const [refreshing, setRefreshing] = useState(false);
-  const [filterType, setFilterType] = useState('all');
+  const [filterType, setFilterType] = useState('teacher');
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const { userDetails, loading: userDetailsLoading, error: userDetailsError } = useFetchUserDetails(selectedUser?.id, 'your_access_token_here');
+  useEffect(() => {
+    const fetchToken = async () => {
+      const storedToken = await AsyncStorage.getItem('token');
+      if (storedToken) {
+        setToken(storedToken);
+      }
+    };
+    fetchToken();
+  }, []);
+
+  const { userDetails, loading: userDetailsLoading, error: userDetailsError } = useFetchUserDetails(selectedUser?.id, token);
 
   const handleRefresh = async () => {
     try {
@@ -23,6 +37,18 @@ const GetUser = () => {
     }
   };
 
+  const handleDelete = async (userId) => {
+    if (token && await deleteUser(userId, token)) {
+      await refetch();
+    }
+  };
+
+  const handleApprove = async (userId, role) => {
+    if (token && await approveUser(userId, role, token)) {
+      await refetch();
+    }
+  };
+
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
@@ -32,9 +58,9 @@ const GetUser = () => {
   }
 
   const getRole = (user) => {
-    if (user.is_teacher) return 'Giảng viên';
-    if (user.is_student) return 'Sinh viên';
-    return 'Người dùng';
+    if (user.is_teacher) return 'teacher';
+    if (user.is_student) return 'student';
+    return 'user';
   };
 
   const filterUsers = () => {
@@ -109,14 +135,6 @@ const GetUser = () => {
             Danh sách yêu cầu đăng ký
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.filterButton, filterType === 'all' && styles.activeFilterButton]}
-          onPress={() => setFilterType('all')}
-        >
-          <Text style={[styles.filterButtonText, filterType === 'all' && styles.activeFilterButtonText]}>
-            Tất cả
-          </Text>
-        </TouchableOpacity>
       </View>
 
       <FlatList
@@ -132,6 +150,14 @@ const GetUser = () => {
                 <Text style={styles.role}>{`Vai trò: ${getRole(item)}`}</Text>
               </View>
               <Text style={styles.status}>{`Hoạt động: ${item.is_active ? 'Có' : 'Không'}`}</Text>
+              <TouchableOpacity onPress={() => handleDelete(item.id)} style={styles.deleteButton}>
+                <Text style={styles.deleteButtonText}>Xóa</Text>
+              </TouchableOpacity>
+              {!item.is_active && (
+                <TouchableOpacity onPress={() => handleApprove(item.id, getRole(item))} style={styles.approveButton}>
+                  <Text style={styles.approveButtonText}>Xác nhận</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </TouchableOpacity>
         )}

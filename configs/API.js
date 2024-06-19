@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = 'http://192.168.1.6:8000/';
+const BASE_URL = 'http://10.17.68.93:8000/';
 
 export const endpoints = {
   'categories': '/categories/',
@@ -10,8 +10,9 @@ export const endpoints = {
   'current_user': '/users/current-user/',
   'get_user': '/users/',
   userDetail: (userId) => `/users/${userId}/`,
-  'accept_student':'',
-  'accept_teacher':''
+  approve_teacher: (userId) => `/users/${userId}/approve-teacher/`,
+  approve_student: (userId) => `/users/${userId}/approve-student/`,
+  
 };
 
 export const authAPI = (accessToken) => axios.create({

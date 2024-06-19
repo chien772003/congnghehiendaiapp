@@ -13,15 +13,26 @@ import RegisterGV from './components/Login/RegisterGV';
 import RegisterSV from './components/Login/RegisterSV';
 import Reducer from './configs/Reducer';
 import MyContext from './configs/MyContext';
+import Coures from './components/Courses/Courses';
+import Search from './components/Search/Search';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const TabNavigator = () => (
+const TabNavigatorAdmin = () => (
   <Tab.Navigator>
     <Tab.Screen
-      name="Các đề cương"
-      component={Curriculum}
+      name="Quản lý ngành"
+      component={Categories}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="albums-outline" color={color} size={size} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Quản lý đề cương"
+      component={Coures}
       options={{
         tabBarIcon: ({ color, size }) => (
           <Icon name="book-outline" color={color} size={size} />
@@ -29,16 +40,48 @@ const TabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Tìm Kiếm"
-      component={Categories}
+      name="Quản lý tài khoản"
+      component={GetUser}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="list-outline" color={color} size={size} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Account"
+      component={Account}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="person-outline" color={color} size={size} />
+        ),
+      }}
+    />
+  </Tab.Navigator>
+);
+const TabNavigatorUser = () => (
+  <Tab.Navigator>
+    <Tab.Screen
+      name="Đề cương"
+      component={Coures}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <Icon name="book-outline" color={color} size={size} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Tìm kiếm"
+      component={Search}
       options={{
         tabBarIcon: ({ color, size }) => (
           <Icon name="search-outline" color={color} size={size} />
         ),
       }}
     />
+    
     <Tab.Screen
-      name="Danh sách yêu cầu"
+      name="Đề cương của bạn"
       component={GetUser}
       options={{
         tabBarIcon: ({ color, size }) => (
@@ -76,7 +119,7 @@ const App = () => {
           <AuthStack />
         ) : (
           <Stack.Navigator>
-            <Stack.Screen name="App" component={TabNavigator} options={{ headerShown: false }} />
+            <Stack.Screen name="App" component={TabNavigatorAdmin} options={{ headerShown: false }} />
           </Stack.Navigator>
         )}
       </NavigationContainer>
