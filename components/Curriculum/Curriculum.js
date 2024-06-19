@@ -25,7 +25,7 @@ const Curriculum = () => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.subject}>Danh sách curriculum</Text>
+            <Text style={styles.subject}>Danh sách các Khóa Học</Text>
 
             {loading ? (
                 <ActivityIndicator size="large" color="#0000ff" />
