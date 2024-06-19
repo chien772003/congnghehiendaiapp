@@ -10,6 +10,8 @@ export const endpoints = {
   'registerSV': '/users/register-student/',
   'current_user': '/users/current-user/',
   'get_user': '/users/',
+  'syllabuses':'/syllabuses/',
+  'curriculum': '/curriculums/',
   userDetail: (userId) => `/users/${userId}/`,
   approve_teacher: (userId) => `/users/${userId}/approve-teacher/`,
   approve_student: (userId) => `/users/${userId}/approve-student/`,

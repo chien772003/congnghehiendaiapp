@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import API, { endpoints } from '../../configs/API';
 
-const Categories = ({ onBack }) => {
+const Categories = () => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -46,9 +46,6 @@ const Categories = ({ onBack }) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={onBack} style={styles.backButton}>
-                <Text style={styles.backButtonText}>Quay lại</Text>
-            </TouchableOpacity>
             <Text style={styles.title}>Categories</Text>
 
             {loading ? (
@@ -80,17 +77,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-    },
-    backButton: {
-        backgroundColor: '#ddd',
-        padding: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginBottom: 20,
-    },
-    backButtonText: {
-        fontSize: 16,
-        color: '#333',
     },
     title: {
         fontSize: 24,
