@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Curriculum from '../components/Curriculum/Curriculum';
 import GetUser from '../components/Account/GetUser';
 import Account from '../components/Account/Account';
+import Courses from '../components/Courses/Courses';
 
 const Tab = createBottomTabNavigator();
 
@@ -11,7 +12,7 @@ const TabNavigatorUserGV = () => (
   <Tab.Navigator>
     <Tab.Screen
       name="Đề cương"
-      component={Curriculum}
+      component={Courses}
       options={{
         tabBarIcon: ({ color, size }) => (
           <Icon name="book-outline" color={color} size={size} />

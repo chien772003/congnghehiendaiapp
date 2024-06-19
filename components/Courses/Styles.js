@@ -47,6 +47,126 @@ const styles = StyleSheet.create({
     },
     courseText: {
         fontSize: 18,
+    },margin: {
+        flex: 1,
+        margin: 20,
+      },
+      backButton: {
+        marginBottom: 10,
+      },
+      backButtonText: {
+        color: 'blue',
+      },
+      subject: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+      },
+      courseContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+        padding: 10,
+        backgroundColor: '#f0f0f0',
+        borderRadius: 5,
+      },
+      courseText: {
+        fontSize: 16,
+      },
+      deleteButton: {
+        backgroundColor: 'red',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 3,
+      },
+      deleteButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+      },
+      margin: {
+        flex: 1,
+        margin: 20,
+      },
+      backButton: {
+        marginBottom: 10,
+      },
+      backButtonText: {
+        color: 'blue',
+      },
+      subject: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+      },
+      addButton: {
+        backgroundColor: 'green',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginBottom: 10,
+      },
+      addButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+      },
+      courseContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+        padding: 10,
+        backgroundColor: '#f0f0f0',
+        borderRadius: 5,
+      },
+      courseText: {
+        fontSize: 16,
+      },
+      deleteButton: {
+        backgroundColor: 'red',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 3,
+      },
+      deleteButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+      },
+      container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 20,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    picker: {
+        width: '100%',
+        height: 40,
+        marginBottom: 20,
+    },
+    input: {
+        width: '100%',
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        marginBottom: 20,
+    },
+    addButton: {
+        backgroundColor: 'green',
+        padding: 10,
+        borderRadius: 5,
+    },
+    addButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 export default styles;

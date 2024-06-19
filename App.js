@@ -55,7 +55,7 @@ const App = () => {
         ) : (
           <Stack.Navigator>
             <Stack.Screen
-              name="App"
+              name="render"
               component={renderNavigator}
               options={{ headerShown: false }}
             />

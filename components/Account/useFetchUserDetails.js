@@ -12,8 +12,8 @@ const useFetchUserDetails = (userId, token) => {
 
     const fetchUserDetails = async () => {
       setLoading(true);
-      setUserDetails(null); // Xóa dữ liệu cũ khi bắt đầu tải dữ liệu mới
-      setError(null); // Xóa lỗi cũ khi bắt đầu tải dữ liệu mới
+      setUserDetails(null); 
+      setError(null); 
       try {
         const response = await axios.get(endpoints.user_detail(userId), authAPI(token));
         setUserDetails(response.data);

@@ -1,23 +1,38 @@
-// Home.js
-import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
 
-const Home = ({ navigation }) => {
+import React, { useState } from 'react';
+import { View, Button, StyleSheet } from 'react-native';
+import Categories from '../Categories/Categories';
+import Syllabus from '../Syllabus/Syllabus';
+import Courses from '../Courses/Courses';
+
+
+const Home = () => {
+  const [currentComponent, setCurrentComponent] = useState(null);
+  const renderComponent = () => {
+    switch (currentComponent) {
+      case 'Categories':
+        return <Categories onBack={() => setCurrentComponent(null)} />;
+      case 'Courses':
+        return <Courses onBack={() => setCurrentComponent(null)} />;
+      case 'Syllabus':
+        return <Syllabus onBack={() => setCurrentComponent(null)} />;
+      default:
+        return null;
+    }
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home Screen</Text>
-      <Button
-        title="Go to Categories"
-        onPress={() => navigation.navigate('Categories')}
-      />
-      <Button
-        title="Go to Courses"
-        onPress={() => navigation.navigate('Courses')}
-      />
-      <Button
-        title="Go to Curriculum"
-        onPress={() => navigation.navigate('Curriculum')}
-      />
+      {currentComponent ? (
+        <View style={styles.fullScreenComponent}>
+          {renderComponent()}
+        </View>
+      ) : (
+        <View style={styles.buttonBar}>
+          <Button title="Categories" onPress={() => setCurrentComponent('Categories')} />
+          <Button title="Courses" onPress={() => setCurrentComponent('Courses')} />
+          <Button title="Syllabus" onPress={() => setCurrentComponent('Syllabus')} />
+        </View>
+      )}
     </View>
   );
 };
@@ -25,13 +40,16 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+  buttonBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: 50,
+    backgroundColor: '#ddd',
+  },
+  fullScreenComponent: {
+    flex: 1,
   },
 });
 
