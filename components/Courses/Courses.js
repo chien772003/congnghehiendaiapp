@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator, FlatList, ScrollView } from 'react-native';
 import API, { endpoints } from '../../configs/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddCourse from './AddCourses'; // Import your AddCourse component here
@@ -55,6 +55,18 @@ const Courses = () => {
         setShowAddCourse(!showAddCourse);
     };
 
+    const renderCourseItem = ({ item }) => (
+        <View style={styles.courseContainer}>
+            <Text style={styles.courseText}>{item.name}</Text>
+            <TouchableOpacity
+                onPress={() => handleDeleteCourse(item.id)}
+                style={styles.deleteButton}
+            >
+                <Text style={styles.deleteButtonText}>Xóa</Text>
+            </TouchableOpacity>
+        </View>
+    );
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.subject}>Danh sách khóa học</Text>
@@ -70,23 +82,12 @@ const Courses = () => {
             {loading ? (
                 <ActivityIndicator size="large" color="#0000ff" />
             ) : (
-                <>
-                    {courses && courses.length > 0 ? (
-                        courses.map((c) => (
-                            <View key={c.id} style={styles.courseContainer}>
-                                <Text style={styles.courseText}>{c.name}</Text>
-                                <TouchableOpacity
-                                    onPress={() => handleDeleteCourse(c.id)}
-                                    style={styles.deleteButton}
-                                >
-                                    <Text style={styles.deleteButtonText}>Xóa</Text>
-                                </TouchableOpacity>
-                            </View>
-                        ))
-                    ) : (
-                        <Text style={styles.noCoursesText}>Không có khóa học nào</Text>
-                    )}
-                </>
+                <FlatList
+                    data={courses}
+                    renderItem={renderCourseItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    ListEmptyComponent={() => <Text style={styles.noCoursesText}>Không có khóa học nào</Text>}
+                />
             )}
         </ScrollView>
     );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, FlatList, ActivityIndicator } from 'react-native';
 import API, { endpoints } from '../../configs/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -9,22 +9,42 @@ const AddCourse = ({ onAddCourse }) => {
     const [categoryId, setCategoryId] = useState('');
     const [categories, setCategories] = useState([]);
     const [loadingCategories, setLoadingCategories] = useState(true);
+    const [nextUrl, setNextUrl] = useState(null);
 
     // Load categories when component mounts
     useEffect(() => {
         const loadCategories = async () => {
             try {
-                let res = await API.get(endpoints['categories']);
-                setCategories(res.data.results);
+                await fetchCategories(endpoints['categories']);
             } catch (ex) {
                 console.error('Error loading categories:', ex);
                 Alert.alert('Error', `Network Error: ${ex.message}`);
-            } finally {
                 setLoadingCategories(false);
             }
         };
         loadCategories();
     }, []);
+
+    // Function to recursively fetch categories until all pages are loaded
+    const fetchCategories = async (url) => {
+        try {
+            let res = await API.get(url);
+            const newData = res.data.results;
+            setCategories((prevCategories) => [...prevCategories, ...newData]);
+
+            if (res.data.next) {
+                setNextUrl(res.data.next);
+                await fetchCategories(res.data.next);
+            } else {
+                setNextUrl(null);
+                setLoadingCategories(false);
+            }
+        } catch (ex) {
+            console.error('Error fetching categories:', ex);
+            Alert.alert('Error', `Network Error: ${ex.message}`);
+            setLoadingCategories(false);
+        }
+    };
 
     // Function to handle adding course
     const handleAddCourse = async () => {
@@ -56,10 +76,18 @@ const AddCourse = ({ onAddCourse }) => {
         }
     };
 
-    // Function to select category by id
     const selectCategory = (categoryId) => {
         setCategoryId(categoryId);
     };
+
+    const renderCategoryItem = ({ item }) => (
+        <TouchableOpacity
+            style={[styles.categoryItem, categoryId === item.id && styles.selectedCategory]}
+            onPress={() => selectCategory(item.id)}
+        >
+            <Text>{item.name}</Text>
+        </TouchableOpacity>
+    );
 
     return (
         <View style={styles.container}>
@@ -67,17 +95,15 @@ const AddCourse = ({ onAddCourse }) => {
 
             {/* Category list */}
             {loadingCategories ? (
-                <Text>Loading categories...</Text>
+                <ActivityIndicator size="large" color="#0000ff" />
             ) : (
-                categories.map((cat) => (
-                    <TouchableOpacity
-                        key={cat.id}
-                        style={[styles.categoryItem, categoryId === cat.id && styles.selectedCategory]}
-                        onPress={() => selectCategory(cat.id)}
-                    >
-                        <Text>{cat.name}</Text>
-                    </TouchableOpacity>
-                ))
+                <FlatList
+                    data={categories}
+                    renderItem={renderCategoryItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    numColumns={2} // Số cột hiển thị
+                    contentContainerStyle={styles.categoryList} // Style cho container của FlatList
+                />
             )}
 
             {/* Input fields */}
@@ -107,7 +133,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
         paddingHorizontal: 20,
     },
     title: {
@@ -115,8 +140,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
     },
+    categoryList: {
+        flexDirection: 'row', // Xếp theo hàng ngang
+        flexWrap: 'wrap', // Cho phép wrap khi không đủ không gian
+        justifyContent: 'center', // Căn giữa các item
+    },
     categoryItem: {
-        width: '100%',
+        width: '45%', // Độ rộng mỗi item (50% nếu numColumns=2)
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',
@@ -125,6 +155,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 10,
         paddingHorizontal: 10,
+        marginHorizontal: '2.5%', // Khoảng cách ngang giữa các item
     },
     selectedCategory: {
         backgroundColor: 'lightblue',

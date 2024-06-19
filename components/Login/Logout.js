@@ -7,7 +7,7 @@ const Logout = ({ navigation }) => {
 
   const logout = () => {
     dispatch({ type: "logout" });
-    navigation.navigate("Login"); // Điều hướng đến màn hình đăng nhập sau khi đăng xuất
+    navigation.navigate("Login"); 
   };
 
   if (user === null) {

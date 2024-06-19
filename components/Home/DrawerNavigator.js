@@ -8,7 +8,7 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator initialRouteName="Categories">
+    <Drawer.Navigator initialRouteName="Categories"screenOptions={{ headerShown: false }}>
       <Drawer.Screen name="Categories" component={Categories} />
       <Drawer.Screen name="Courses" component={Courses} />
       <Drawer.Screen name="Syllabus" component={Syllabus} />

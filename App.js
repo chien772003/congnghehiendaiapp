@@ -20,7 +20,7 @@ const Drawer = createDrawerNavigator();
 const App = () => {
   const [user, dispatch] = useReducer(Reducer, null);
   const [role, setRole] = useState(null);
-
+  
   useEffect(() => {
     const fetchUserRole = async () => {
       const token = await AsyncStorage.getItem('token');
@@ -39,7 +39,7 @@ const App = () => {
         <Drawer.Screen name="Syllabus" component={Syllabus} />
       </Drawer.Navigator>
     </NavigationContainer>
-  const renderNavigator = () => {
+  const RenderNavigator = () => {
     if (!user) {
       return <AuthStack />;
     }
@@ -66,7 +66,7 @@ const App = () => {
           <Stack.Navigator>
             <Stack.Screen
               name="render"
-              component={renderNavigator}
+              component={RenderNavigator}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
