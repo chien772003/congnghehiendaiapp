@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, RefreshControl, TouchableOpacity, Image } from 'react-native';
 import useFetchUsers from './useFetchUsers';
+import useFetchUserDetails from './useFetchUserDetails';
 import styles from './Styles';
 
 const GetUser = () => {
   const { users, loading, error, refetch } = useFetchUsers();
   const [refreshing, setRefreshing] = useState(false);
-  const [filterType, setFilterType] = useState('all'); // State để lưu trạng thái nút lọc
+  const [filterType, setFilterType] = useState('all');
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const { userDetails, loading: userDetailsLoading, error: userDetailsError } = useFetchUserDetails(selectedUser?.id, 'your_access_token_here');
 
   const handleRefresh = async () => {
     try {
       setRefreshing(true);
-      await refetch(); // Chờ cho fetch dữ liệu xong
+      await refetch();
     } catch (error) {
-      console.error("Lỗi khi refresh:", error);
+      console.error("Error refreshing:", error);
     } finally {
-      setRefreshing(false); 
+      setRefreshing(false);
     }
   };
-
-  // Thêm log để kiểm tra dữ liệu người dùng
-  console.log('Users:', users);
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -51,11 +52,38 @@ const GetUser = () => {
 
   const filteredUsers = filterUsers();
 
-  // Thêm log để kiểm tra dữ liệu người dùng sau khi lọc
-  console.log('Filtered Users:', filteredUsers);
+  const handleUserPress = (user) => {
+    setSelectedUser(user);
+  };
+
+  const renderUserDetails = () => {
+    if (!selectedUser) return null;
+
+    return (
+      <View style={styles.userDetailsContainer}>
+        <View style={styles.userDetailsHeader}>
+          <Text style={styles.userDetailsHeaderText}>Chi tiết người dùng</Text>
+          <TouchableOpacity onPress={() => setSelectedUser(null)}>
+            <Text style={styles.closeIcon}>X</Text>
+          </TouchableOpacity>
+        </View>
+        <Image source={{ uri: selectedUser.avatar }} style={styles.avatar} />
+        <Text style={styles.userName}>{`${selectedUser.first_name} ${selectedUser.last_name}`}</Text>
+        <Text style={styles.email}>{selectedUser.email}</Text>
+        <Text style={styles.role}>{`Vai trò: ${getRole(selectedUser)}`}</Text>
+        <View style={styles.userDetailsContent}>
+          <Text style={styles.userDetailsText}>
+            <Text style={styles.userDetailsLabel}>Hoạt động:</Text> {selectedUser.is_active ? 'Có' : 'Không'}
+          </Text>
+          {/* Add more details as needed */}
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
+      {/* Filter buttons section */}
       <View style={styles.filterButtons}>
         <TouchableOpacity
           style={[styles.filterButton, filterType === 'teacher' && styles.activeFilterButton]}
@@ -90,19 +118,22 @@ const GetUser = () => {
           </Text>
         </TouchableOpacity>
       </View>
+
       <FlatList
         data={filteredUsers}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={styles.userContainer}>
-            <Image source={{ uri: item.avatar }} style={styles.avatar} />
-            <View style={styles.userInfo}>
-              <Text style={styles.userName}>{`${item.first_name} ${item.last_name}`}</Text>
-              <Text style={styles.email}>{item.email}</Text>
-              <Text style={styles.role}>{`Vai trò: ${getRole(item)}`}</Text>
+          <TouchableOpacity onPress={() => handleUserPress(item)}>
+            <View style={styles.userContainer}>
+              <Image source={{ uri: item.avatar }} style={styles.avatar} />
+              <View style={styles.userInfo}>
+                <Text style={styles.userName}>{`${item.first_name} ${item.last_name}`}</Text>
+                <Text style={styles.email}>{item.email}</Text>
+                <Text style={styles.role}>{`Vai trò: ${getRole(item)}`}</Text>
+              </View>
+              <Text style={styles.status}>{`Hoạt động: ${item.is_active ? 'Có' : 'Không'}`}</Text>
             </View>
-            <Text style={styles.status}>{`Hoạt động: ${item.is_active ? 'Có' : 'Không'}`}</Text>
-          </View>
+          </TouchableOpacity>
         )}
         refreshControl={
           <RefreshControl
@@ -113,7 +144,10 @@ const GetUser = () => {
           />
         }
       />
+
+      {renderUserDetails()}
     </View>
   );
 };
+
 export default GetUser;

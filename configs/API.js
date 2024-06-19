@@ -8,7 +8,10 @@ export const endpoints = {
   'registerGV': '/users/register-teacher/',
   'registerSV': '/users/register-student/',
   'current_user': '/users/current-user/',
-  'get_user': '/users/'
+  'get_user': '/users/',
+  userDetail: (userId) => `/users/${userId}/`,
+  'accept_student':'',
+  'accept_teacher':''
 };
 
 export const authAPI = (accessToken) => axios.create({
