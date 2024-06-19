@@ -11,7 +11,7 @@ const GetUser = () => {
   const [token, setToken] = useState(null);
   const { users, loading, error, refetch } = useFetchUsers();
   const [refreshing, setRefreshing] = useState(false);
-  const [filterType, setFilterType] = useState('teacher');
+  const [filterType, setFilterType] = useState('all');
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
