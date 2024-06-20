@@ -21,8 +21,8 @@ const Login = ({ navigation }) => {
       let res = await API.post(endpoints['login'], {
         'username': username,
         'password': password,
-        'client_id': "2C8UzdXx6mx4ePi6AhaluEcgvknRVanOrQ2JFMwI",
-        'client_secret': "52MZ8uDQGjKWq1iKedj1K7y6snlNy7IHSb94C5SbHKMpriMkLCgRK4WZvX9hFi5PBtWA0TcLeyEAblm0h22JCCxeDtxE3zkS5vy50ZxiNbPY2pfBTrCizMAxJDVz2EH2",
+        'client_id': "j871D7KPscbwHih7JSc1MNYDA7tCIYK3klQy80rw",
+        'client_secret': "HSlFkNnczUoAyFoDnnlPF6HJ9BQu8gqwShjt27Iz1UGmukntAvdsmpPYZxlT3GzXBsptIJyMT0AurINlxUjg0LHkLnkY3V9nOIpypFPQmh5dbSrRBwh8qTNLZZDERjrA",
         'grant_type': "password"
       });
       

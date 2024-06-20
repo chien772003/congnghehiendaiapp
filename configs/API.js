@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'https://huyphu54.pythonanywhere.com/';
+const BASE_URL = 'http://192.168.1.6:8000/';
 
 export const endpoints = {
   'categories': '/categories/',

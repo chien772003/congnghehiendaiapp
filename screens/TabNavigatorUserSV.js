@@ -6,6 +6,7 @@ import Search from '../components/Search/Search';
 import GetUser from '../components/Account/GetUser';
 import Account from '../components/Account/Account';
 import SearchCurriculum from '../components/Curriculum/SearchCurriculum'
+import Syllabus from '../components/Syllabus/Syllabus';
 const Tab = createBottomTabNavigator();
 
 const TabNavigatorUserSV = () => (
@@ -30,7 +31,7 @@ const TabNavigatorUserSV = () => (
     />
     <Tab.Screen
       name="Hoạt động của bạn"
-      component={GetUser}
+      component={Syllabus}
       options={{
         tabBarIcon: ({ color, size }) => (
           <Icon name="list-outline" color={color} size={size} />

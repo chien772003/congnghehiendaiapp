@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, FlatList, Text, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 
-const API_URL = 'https://huyphu54.pythonanywhere.com//curriculum/';
+const API_URL = 'https://192.168.1.6:8000/.com//curriculums/';
 
 const SearchCurriculum = () => {
     const [searchParams, setSearchParams] = useState({
@@ -23,7 +23,7 @@ const SearchCurriculum = () => {
             setSearchResults(response.data);
         } catch (error) {
             console.error('Error searching:', error);
-            Alert.alert('Error', 'Failed to perform search. Please try again later.');
+            Alert.alert('Error', 'Vui lòng thử lai.');
         } finally {
             setLoading(false);
         }
